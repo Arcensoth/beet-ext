@@ -11,14 +11,19 @@ log = logging.getLogger("subprojects")
 
 
 class SubprojectsOptions(BaseModel):
+    root: Path
     match: str
-    merge: List[str] = Field(default_factory=list)
+    merge: List[Path] = Field(default_factory=list)
     config: ProjectConfig = Field(default_factory=ProjectConfig)
+
+    @validator("root", pre=True, allow_reuse=True)
+    def resolve_root(cls, value: Any):
+        return Path(value).absolute()
 
     @validator("merge", pre=True, allow_reuse=True)
     def split_merge(cls, value: Any):
         if isinstance(value, str):
-            return value.split(",")
+            return [Path(s) for s in value.split(",")]
         return value
 
 
@@ -28,6 +33,7 @@ def beet_default(ctx: Context):
 
 @configurable(validator=SubprojectsOptions)
 def subprojects(ctx: Context, opts: SubprojectsOptions):
+    opts.config.resolve(opts.root)
     if opts.merge:
         merge_subprojects(ctx, opts)
     else:
@@ -35,20 +41,21 @@ def subprojects(ctx: Context, opts: SubprojectsOptions):
 
 
 def merge_subprojects(ctx: Context, opts: SubprojectsOptions):
-    to_merge: List[str] = opts.merge.copy()
-    merged: List[str] = []
+    to_merge: List[Path] = opts.merge.copy()
+    merged: List[Path] = []
     for root in resolve_subproject_roots(ctx, opts):
-        if root.name in to_merge:
+        root_rel = root.relative_to(opts.root)
+        if root_rel in to_merge:
             merge_subproject(ctx, opts, root)
-            to_merge.remove(root.name)
-            merged.append(root.name)
+            to_merge.remove(root_rel)
+            merged.append(root_rel)
     if to_merge:
-        to_merge_str = ", ".join(to_merge)
+        to_merge_str = ", ".join(str(p) for p in to_merge)
         secho(
             f"Missing {len(to_merge)} of {len(opts.merge)} subprojects: {to_merge_str}",
             fg="yellow",
         )
-    merged_str = ", ".join(merged)
+    merged_str = ", ".join(str(p) for p in merged)
     secho(
         f"Finished merging {len(merged)} of {len(opts.merge)} subprojects: {merged_str}",
         fg="green",
@@ -56,21 +63,21 @@ def merge_subprojects(ctx: Context, opts: SubprojectsOptions):
 
 
 def merge_subproject(ctx: Context, opts: SubprojectsOptions, root: Path):
-    root_rel = root.relative_to(ctx.directory)
+    root_rel = root.relative_to(opts.root)
     secho(f"Merging subproject: {root_rel}")
     ctx.require(load(data_pack=[str(root)]))
 
 
 def build_subprojects(ctx: Context, opts: SubprojectsOptions):
-    built: List[str] = []
+    built: List[Path] = []
     for root in resolve_subproject_roots(ctx, opts):
         build_subproject(ctx, opts, root)
-        built.append(root.name)
+        built.append(root.relative_to(opts.root))
     secho(f"Finished building {len(built)} subprojects", fg="green")
 
 
 def build_subproject(ctx: Context, opts: SubprojectsOptions, root: Path):
-    root_rel = root.relative_to(ctx.directory)
+    root_rel = root.relative_to(opts.root)
     secho(f"Building subproject: {root_rel}")
     config = ProjectConfig(
         directory=str(root),
@@ -83,11 +90,11 @@ def build_subproject(ctx: Context, opts: SubprojectsOptions, root: Path):
 
 
 def resolve_subproject_roots(ctx: Context, opts: SubprojectsOptions) -> Iterable[Path]:
-    for node in ctx.directory.glob(opts.match):
+    for node in opts.root.glob(opts.match):
         if node.is_dir():
             yield node
         elif node.is_file():
             yield node.parent
         else:
-            node_rel = node.relative_to(ctx.directory)
+            node_rel = node.relative_to(opts.root)
             log.warning(f"Skipping unsupported subproject node: {node_rel}")

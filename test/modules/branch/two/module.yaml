@@ -1,0 +1,8 @@
+name: beet_ext.branch.two
+version: 0.0.0
+title:
+  - text: "[Beet Ext] "
+    color: gray
+  - text: Branch Two
+    color: yellow
+description: This is a description!

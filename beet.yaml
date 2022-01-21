@@ -11,12 +11,13 @@ pipeline:
 
 meta:
   subprojects:
-    match: test/modules/*
+    root: test/modules
+    match: "**/module.yaml"
     config:
       data_pack:
         name: "{{module.name}}-v{{module.version}}"
-        load: ["../lib"]
-      output: ../../../.beet_output
+        load: ["lib"]
+      output: ../../.beet_output
       require:
         - mecha.contrib.scripting
         - mecha.contrib.messages
