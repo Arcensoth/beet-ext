@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "beet-ext"
+version = "0.0.1"
+description = "A personal assortment of extensions and utilities for beet projects."
+authors = ["Arcensoth <arcensoth@gmail.com>"]
+license = "MIT"
+readme = 'README.md'
+repository = "https://github.com/Arcensoth/beet-ext"
+homepage = "https://github.com/Arcensoth/beet-ext"
+classifiers = [
+    "Private :: Do Not Publish"
+]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+beet = ">=0.50.2"
+mecha = ">=0.32.1"
+
+[tool.poetry.group.dev.dependencies]
+black = "^21.12b0"
+isort = "^5.10.1"
+rope = "^0.22.0"
+
+[tool.pyright]
+typeCheckingMode = "strict"
+
+[tool.isort]
+profile = "black"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

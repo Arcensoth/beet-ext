@@ -1,0 +1,8 @@
+name: beet_ext.lib
+version: 0.0.0
+title:
+  - text: "[Beet Ext] "
+    color: gray
+  - text: Lib
+    color: light_purple
+description: This is a description!

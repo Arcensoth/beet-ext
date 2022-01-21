@@ -1,0 +1,26 @@
+output: .beet_output
+
+require:
+  - mecha.contrib.scripting
+  - mecha.contrib.messages
+  - beet.contrib.auto_yaml
+
+pipeline:
+  - beet_ext.plugins.subprojects
+  - mecha
+
+meta:
+  subprojects:
+    match: test/modules/*
+    config:
+      data_pack:
+        name: "{{module.name}}-v{{module.version}}"
+        load: ["../lib"]
+      output: ../../../.beet_output
+      require:
+        - mecha.contrib.scripting
+        - mecha.contrib.messages
+        - beet.contrib.auto_yaml
+      pipeline:
+        - beet_ext.plugins.modulize
+        - mecha
