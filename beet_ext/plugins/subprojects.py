@@ -41,18 +41,19 @@ def subprojects(ctx: Context, opts: SubprojectsOptions):
 
 
 def merge_subprojects(ctx: Context, opts: SubprojectsOptions):
-    to_merge: List[Path] = opts.merge.copy()
+    missing: List[Path] = []
     merged: List[Path] = []
-    for root in resolve_subproject_roots(ctx, opts):
-        root_rel = root.relative_to(opts.root)
-        if root_rel in to_merge:
-            merge_subproject(ctx, opts, root)
-            to_merge.remove(root_rel)
-            merged.append(root_rel)
-    if to_merge:
-        to_merge_str = ", ".join(str(p) for p in to_merge)
+    for root_rel in opts.merge:
+        root = opts.root / root_rel
+        if not root.exists():
+            missing.append(root_rel)
+            continue
+        merge_subproject(ctx, opts, root)
+        merged.append(root_rel)
+    if missing:
+        to_merge_str = ", ".join(str(p) for p in missing)
         secho(
-            f"Missing {len(to_merge)} of {len(opts.merge)} subprojects: {to_merge_str}",
+            f"Missing {len(missing)} of {len(opts.merge)} subprojects: {to_merge_str}",
             fg="yellow",
         )
     merged_str = ", ".join(str(p) for p in merged)
