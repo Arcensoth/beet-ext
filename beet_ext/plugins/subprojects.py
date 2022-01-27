@@ -4,7 +4,6 @@ from typing import Any, Iterable, List
 
 from beet import Context, PackConfig, ProjectConfig, configurable, subproject
 from beet.contrib.load import load
-from beet.toolchain.cli import secho
 from pydantic import BaseModel, Field, validator
 
 log = logging.getLogger("subprojects")
@@ -52,20 +51,18 @@ def merge_subprojects(ctx: Context, opts: SubprojectsOptions):
         merged.append(root_rel)
     if missing:
         to_merge_str = ", ".join(str(p) for p in missing)
-        secho(
-            f"Missing {len(missing)} of {len(opts.merge)} subprojects: {to_merge_str}",
-            fg="yellow",
+        log.warning(
+            f"Missing {len(missing)} of {len(opts.merge)} subprojects: {to_merge_str}"
         )
     merged_str = ", ".join(str(p) for p in merged)
-    secho(
-        f"Finished merging {len(merged)} of {len(opts.merge)} subprojects: {merged_str}",
-        fg="green",
+    log.info(
+        f"Finished merging {len(merged)} of {len(opts.merge)} subprojects: {merged_str}"
     )
 
 
 def merge_subproject(ctx: Context, opts: SubprojectsOptions, root: Path):
     root_rel = root.relative_to(opts.root)
-    secho(f"Merging subproject: {root_rel}")
+    log.info(f"Merging subproject: {root_rel}")
     ctx.require(load(data_pack=[str(root)]))
 
 
@@ -74,12 +71,12 @@ def build_subprojects(ctx: Context, opts: SubprojectsOptions):
     for root in resolve_subproject_roots(ctx, opts):
         build_subproject(ctx, opts, root)
         built.append(root.relative_to(opts.root))
-    secho(f"Finished building {len(built)} subprojects", fg="green")
+    log.info(f"Finished building {len(built)} subprojects")
 
 
 def build_subproject(ctx: Context, opts: SubprojectsOptions, root: Path):
     root_rel = root.relative_to(opts.root)
-    secho(f"Building subproject: {root_rel}")
+    log.info(f"Building subproject: {root_rel}")
     config = ProjectConfig(
         directory=str(root),
         data_pack=PackConfig(
