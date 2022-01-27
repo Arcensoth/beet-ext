@@ -1,5 +1,9 @@
+import logging
+
 import yaml
 from beet import Context
+
+log = logging.getLogger("subprojects")
 
 
 def beet_default(ctx: Context):
@@ -9,13 +13,13 @@ def beet_default(ctx: Context):
         module_meta = yaml.safe_load(fp)
 
     module_name = module_meta["name"]
-    print(f"  -> name: {module_name}")
+    log.info(f"  -> name: {module_name}")
 
     module_version = module_meta["version"]
-    print(f"  -> version: {module_version}")
+    log.info(f"  -> version: {module_version}")
 
     module_description = module_meta.get("description", "")
-    print(f"  -> description: {module_description}")
+    log.info(f"  -> description: {module_description}")
 
     pack_title = module_meta.get("title") or module_name
     pack_description = [pack_title]
