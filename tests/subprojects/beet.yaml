@@ -6,7 +6,6 @@ require:
   - beet.contrib.auto_yaml
 
 pipeline:
-  - beet_ext.plugins.arcenlib
   - beet_ext.plugins.subprojects
   - mecha
 
