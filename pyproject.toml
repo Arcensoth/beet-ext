@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "beet-ext"
-version = "0.0.6"
+version = "0.0.7"
 description = "A personal assortment of extensions and utilities for beet projects."
 authors = ["Arcensoth <arcensoth@gmail.com>"]
 license = "MIT"
@@ -13,11 +13,11 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.10"
-beet = ">=0.50.2"
-mecha = ">=0.32.1"
+beet = ">=0.50.7"
+mecha = ">=0.36.3"
 
 [tool.poetry.dev-dependencies]
-black = "^21.12b0"
+black = "^22.1.0"
 isort = "^5.10.1"
 rope = "^0.22.0"
 

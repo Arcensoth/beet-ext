@@ -1,25 +1,26 @@
 output: .beet_output
 
 require:
-  - mecha.contrib.scripting
+  - mecha.contrib.bolt
   - mecha.contrib.messages
   - beet.contrib.auto_yaml
 
 pipeline:
+  - beet_ext.plugins.arcenlib
   - beet_ext.plugins.subprojects
   - mecha
 
 meta:
   subprojects:
-    root: test/modules
+    root: modules
     match: "**/module.yaml"
     config:
       data_pack:
         name: "{{module.name}}-v{{module.version}}"
         load: ["lib"]
-      output: ../../.beet_output
+      output: ../.beet_output
       require:
-        - mecha.contrib.scripting
+        - mecha.contrib.bolt
         - mecha.contrib.messages
         - beet.contrib.auto_yaml
       pipeline:

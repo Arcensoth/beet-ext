@@ -1,7 +1,7 @@
-name: beet_ext.branch.two
+name: arcenstuff.branch.two
 version: 0.0.0
 title:
-  - text: "[Beet Ext] "
+  - text: "[Arcenstuff] "
     color: gray
   - text: Branch Two
     color: yellow

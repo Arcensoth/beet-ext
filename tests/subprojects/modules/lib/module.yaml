@@ -1,7 +1,7 @@
-name: beet_ext.lib
+name: arcenstuff.lib
 version: 0.0.0
 title:
-  - text: "[Beet Ext] "
+  - text: "[Arcenstuff] "
     color: gray
   - text: Lib
     color: light_purple

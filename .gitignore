@@ -4,6 +4,3 @@
 __pycache__
 .python-version
 /.venv/
-
-/.beet_cache/
-/.beet_output/
