@@ -96,12 +96,12 @@ def iter_log_commands(
     )
     yield (
         f"data modify storage {opts.storage_location} text.as"
-        f" set value {opts.text_as_server_json}"
+        f" set value '{opts.text_as_server_json}'"
     )
     yield (
         "execute if entity @s"
         f" run data modify storage {opts.storage_location} text.as"
-        f" set value {opts.text_as_self_json}"
+        f" set value '{opts.text_as_self_json}'"
     )
     log_json = build_log_json(path, opts, message, channel)
     yield f"tellraw @a {log_json}"
