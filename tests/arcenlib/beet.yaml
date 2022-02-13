@@ -1,0 +1,33 @@
+output: .beet_output
+
+data_pack:
+  load: src
+
+require:
+  - beet_ext.plugins.log
+  - mecha.contrib.bolt
+  - beet.contrib.auto_yaml
+
+pipeline:
+  - mecha
+
+meta:
+  log:
+    enabled:
+      - debug
+      - info
+      - warning
+      - error
+      - critical
+      - foo
+      - bar
+    channels:
+      foo:
+        label: FOO
+        color: "#880000"
+      bar:
+        label: BAR
+        color: "#008800"
+      baz:
+        label: BAZ
+        color: "#000088"
