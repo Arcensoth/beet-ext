@@ -123,7 +123,7 @@ def build_log_json(
                     " ",
                     {
                         "storage": opts.storage_location,
-                        "path": "gametime",
+                        "nbt": "gametime",
                         "color": opts.text_color_2,
                     },
                     " ",
