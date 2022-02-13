@@ -15,9 +15,11 @@ class LogChannel(BaseModel):
 class LogOptions(BaseModel):
     storage_location: str = "beet_ext:log"
     text_as_server_component: Any = {"text": "Server", "color": "dark_purple"}
-    text_as_self_component = {"selector": "@s"}
+    text_as_self_component: Any = {"selector": "@s"}
+    text_color_1: str = "#aaaaaa"
+    text_color_2: str = "#777777"
     enabled: list[str] = Field(default_factory=list)
-    channels: dict[str, LogChannel]
+    channels: dict[str, LogChannel] = Field(default_factory=dict)
 
     @property
     def text_as_server_json(self) -> str:
@@ -115,26 +117,26 @@ def build_log_json(
             {
                 "text": "",
                 "extra": [
-                    {"text": "[", "color": "#aaaaaa"},
+                    {"text": "[", "color": opts.text_color_1},
                     channel.label,
-                    {"text": "]", "color": "#aaaaaa"},
+                    {"text": "]", "color": opts.text_color_1},
                     " ",
                     {
                         "storage": opts.storage_location,
                         "path": "gametime",
-                        "color": "#777777",
+                        "color": opts.text_color_2,
                     },
                     " ",
-                    {"text": f"{namespace}", "color": "#aaaaaa"},
+                    {"text": f"{namespace}", "color": opts.text_color_1},
                 ],
                 "hoverEvent": {
                     "action": "show_text",
                     "contents": [
                         "",
-                        {"text": "in ", "color": "#777777"},
+                        {"text": "in ", "color": opts.text_color_2},
                         {"text": f"{path}", "color": "yellow"},
                         "\n",
-                        {"text": "as ", "color": "#777777"},
+                        {"text": "as ", "color": opts.text_color_2},
                         {
                             "text": "",
                             "color": "aqua",
