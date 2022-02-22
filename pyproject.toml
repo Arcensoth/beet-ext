@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "beet-ext"
-version = "0.0.11"
+version = "0.0.12"
 description = "A personal assortment of extensions and utilities for beet projects."
 authors = ["Arcensoth <arcensoth@gmail.com>"]
 license = "MIT"
