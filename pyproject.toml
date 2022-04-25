@@ -14,7 +14,8 @@ classifiers = [
 [tool.poetry.dependencies]
 python = "^3.10"
 beet = ">=0.59.0"
-mecha = ">=0.47.0"
+mecha = ">=0.48.0"
+bolt = ">=0.2.0"
 
 [tool.poetry.dev-dependencies]
 black = "^22.1.0"

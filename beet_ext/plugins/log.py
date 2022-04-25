@@ -2,8 +2,8 @@ import json
 from typing import Any, Iterable
 
 from beet import Context, configurable
+from bolt import Runtime
 from mecha import Mecha
-from mecha.contrib.bolt import Runtime
 from pydantic import BaseModel, Field
 
 

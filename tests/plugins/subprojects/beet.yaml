@@ -1,9 +1,9 @@
 output: .beet_output
 
 require:
-  - mecha.contrib.bolt
   - mecha.contrib.messages
   - beet.contrib.auto_yaml
+  - bolt
 
 pipeline:
   - beet_ext.plugins.subprojects
@@ -19,9 +19,9 @@ meta:
         load: ["lib"]
       output: ../.beet_output
       require:
-        - mecha.contrib.bolt
         - mecha.contrib.messages
         - beet.contrib.auto_yaml
+        - bolt
       pipeline:
         - beet_ext.plugins.modulize
         - mecha

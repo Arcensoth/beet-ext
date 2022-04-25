@@ -5,8 +5,8 @@ data_pack:
 
 require:
   - beet_ext.plugins.log
-  - mecha.contrib.bolt
   - beet.contrib.auto_yaml
+  - bolt
 
 pipeline:
   - mecha

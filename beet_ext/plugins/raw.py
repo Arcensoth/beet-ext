@@ -1,6 +1,6 @@
 from beet import Context
+from bolt import Runtime
 from mecha import Mecha
-from mecha.contrib.bolt import Runtime
 
 
 def beet_default(ctx: Context):
